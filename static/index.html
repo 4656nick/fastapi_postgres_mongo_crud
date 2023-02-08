@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>index</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+  </head>
+  <body>
+    <h1>Тест application :) </h1>
+    <form action="/submit-form" method="post">
+      <div class="mb-3">
+        <label for="driver_iin" class="form-label">Введите ИИН водителя</label>
+        <input type="number" class="form-control" id="driver_iin" name="driver_iin">
+      </div>
+      <div class="mb-3">
+        <label for="client_iin" class="form-label">Введите ИИН клиента</label>
+        <input type="number" class="form-control" id="client_iin" name="client_iin">
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="costs">Введите сумму поездки</label>
+        <input type="number" class="form-control" id="costs" name="costs">
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="location_start">Введите стартовую локацию</label>
+        <input type="text" class="form-control" id="location_start" name="location_start">
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="location_finish">Введите финишную локацию</label>
+        <input type="text" class="form-control" id="location_finish" name="location_finish">
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="time_start">Дата и время начала поездки</label>
+        <input type="datetime-local" class="form-control" id="time_start" name="time_start">
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="time_finish">Дата и время окончания поездки</label>
+        <input type="datetime-local" class="form-control" id="time_finish" name="time_finish">
+      </div>
+      <button type="submit" class="btn btn-primary">Отправить</button>
+    </form>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+  </body>
+</html>

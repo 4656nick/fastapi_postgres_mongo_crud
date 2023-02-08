@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+#  demo:
+#    container_name: demo
+#    build:
+#      context: .
+#    ports:
+#      - "80:80"
+#    restart: on-failure
+#    depends_on:
+#      - mongo
+  mongo:
+    container_name: mongodb
+    image: mongo
+    environment:
+      - MONGO_INITDB_DATABASE=test
+    volumes:
+      - ./database/mongo:/data/db
+    ports:
+      - "27017:27017"
+    restart: on-failure
+  postgres:
+    image: postgres:13.3
+    environment:
+      POSTGRES_DB: "taxi"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "123"
+    ports:
+      - "5432:5432"
