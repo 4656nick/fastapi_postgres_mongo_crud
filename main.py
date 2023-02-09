@@ -3,7 +3,7 @@ from typing import Union
 from fastapi import FastAPI, Query, Header, Request, Form
 from fastapi.openapi.models import Response
 from fastapi.responses import JSONResponse, HTMLResponse
-from psycopg2._psycopg import cursor
+# from psycopg2._psycopg import cursor
 from pydantic import BaseModel
 import psycopg2
 import pymongo
@@ -62,7 +62,7 @@ def take_routes():
     return result
 
 
-@app.post("/take-route/{route_id}")
+@app.post("/update-route/{route_id}")
 def change_finish(route_id: int, finishtime: str):
     conn = psycopg2.connect(database="taxi", user="postgres", password="123", host="localhost", port="5432")
     conn.autocommit = True
@@ -73,3 +73,58 @@ def change_finish(route_id: int, finishtime: str):
     return result
 
 
+@app.post("/get-route/{taketime}")
+def get_route(taketime: str):
+    conn = psycopg2.connect(database="taxi", user="postgres", password="123", host="localhost", port="5432")
+    conn.autocommit = True
+    cursor = conn.cursor()
+    cursor.execute(f"SELECT D.NAME, D.LASTNAME, R.COSTS, C.NAME, C.LASTNAME, "
+                   f"R.LOCATIONFINISH, R.TAKETIME, R.FINISHTIME "
+                   f"FROM ROUTE R "
+                   f"INNER JOIN SCHEDULE S ON S.ID = R.IDSCHEDULE "
+                   f"INNER JOIN CLIENT C ON C.ID = R.IDCLIENT "
+                   f"INNER JOIN CAR ON CAR.ID = S.IDCAR "
+                   f"INNER JOIN DRIVER D ON D.ID = S.IDDRIVER "
+                   f"INNER JOIN BRAND B ON B.ID = CAR.IDBRAND "
+                   f"INNER JOIN MODEL M ON M.ID = CAR.IDMODEL "
+                   f"WHERE R.TAKETIME::text LIKE '%{taketime}%';")
+    result = cursor.fetchall()
+    return result
+
+
+@app.post("/add-cashe")
+def add_cashe_mongo(name: str, lastname: str, birthdate: str, phone: int, iin: int):
+    client = MongoClient('localhost', 27017)
+    db = client['test']
+    series_collection = db['cashe']
+
+    json_input = {
+        "name": name,
+        "lastname": lastname,
+        "birthdate": birthdate,
+        "phone": phone,
+        "iin": iin
+    }
+    series_collection.insert_one(json_input)
+    result = series_collection.find()
+    return {
+        "message": "user added to cashe"
+    }
+
+
+@app.post("/take-from-cashe")
+def take_from_cashe(id):
+    client = MongoClient('localhost', 27017)
+    db = client['test']
+    series_collection = db['cashe']
+
+    # elements = input()
+    # json2 = {"name":elements}
+    # result = series_collection.(json.loads(elements)).inserted_id
+    # result = series_collection.find(json.loads(elements))
+
+    # json_input = {"_id": id}
+    # result = series_collection.find({"_id": ObjectId("63e4ceb35777789a9d6ab8ba")})
+    # return result
+    # for r in result:
+    #    print(type(r['name']))
